@@ -119,6 +119,7 @@ public class LibraryManagement {
                 	Transaction.displayTransactionHistory();
                     break;
                 case 7:
+                	scanner.close();
                     System.out.println("Exiting. Good Bye..");
                     running = false;
                     break;

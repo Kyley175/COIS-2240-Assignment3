@@ -4,7 +4,6 @@ import java.util.List;
 public class Library {
     private List<Member> members = new ArrayList<Member>();
     private List<Book> books = new ArrayList<Book>();
-
     // Add a new member to the library
     public void addMember(Member member) {
         members.add(member);
@@ -44,4 +43,5 @@ public class Library {
     public List<Book> getBooks() {
         return books;
     }
+    
 }
