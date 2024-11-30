@@ -73,17 +73,17 @@ public class Library {
         return books;
     }
     
-  //persistent books and members, because it makes sense and I wanted to
+  //persistent books and members, because it makes sense and I wanted to 
     // saves the data in the lists to files for future use
     public void saveLibraryData() {
     	try(BufferedWriter bookWriter = new BufferedWriter(new FileWriter("books.txt")); 
     		BufferedWriter memberWriter = new BufferedWriter(new FileWriter("members.txt"))){
     		
     		for (Book book:books) {
-    			bookWriter.write(book.getId() + ": " + book.getTitle()+ "/n");
+    			bookWriter.write(book.saveString() + "\n");
     		}
     		for (Member member: members) {
-    			memberWriter.write(member.getId() + ": " + member.getName()+ "/n");
+    			memberWriter.write(member.getId() + ", " + member.getName()+ "\n");
     		}
     		
     	} catch(IOException e) {
@@ -98,21 +98,29 @@ public class Library {
         	
         	String line;
         	
-        	
-        	while ((line = bookReader.readLine()) != null) {
-        		String[] bookData = line.split(": "); //splits each line into id and name
-        		int bookID = Integer.parseInt(bookData[0]);
-        		String title = bookData[1];
-        		books.add(new Book(bookID, title));
-        		bookIDs.add(bookID);
-        	}
-        	
         	while ((line = memberReader.readLine()) != null) {
-        		String[] memberData = line.split(": "); //splits each line into id and name
+        		String[] memberData = line.split(","); //splits each line into id and name
         		int memberID = Integer.parseInt(memberData[0]);
         		String title = memberData[1];
         		members.add(new Member(memberID, title));
         		memberIDs.add(memberID);
+        	}
+        	
+        	while ((line = bookReader.readLine()) != null) {
+        		String[] bookData = line.split(","); //splits each line into id and name
+        		int bookID = Integer.parseInt(bookData[0]);
+        		String title = bookData[1];
+        		boolean isAvailable = Boolean.parseBoolean(bookData[2]);
+        		Integer borrowedBy = bookData[3].equals("null") ? null : Integer.parseInt(bookData[3].strip());
+        		
+        		Book book = new Book(bookID, title);
+        		if (isAvailable == false) {
+        			Member borrower = findMemberById(borrowedBy);
+        			borrower.borrowBook(book);		
+     
+        		}
+        		books.add(book);
+        		bookIDs.add(bookID);
         	}
         
         } catch(IOException e) {

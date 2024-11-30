@@ -28,6 +28,7 @@ public class Member {
     // Method to borrow a book
     public void borrowBook(Book book) {
         borrowedBooks.add(book);
+        book.borrowBook(this);
     }
 
     // Method to return a book

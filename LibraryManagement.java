@@ -37,7 +37,7 @@ public class LibraryManagement {
                     int id = scanner.nextInt();
                     scanner.nextLine();//moved this up to eat the newline left by nextInt and changed the scan below to nextLine in case someone wants a last name
                 	System.out.print("Enter member name: ");
-                    String name = scanner.nextLine().trim();//trims off the newline, not sure why it's there for member names but not book titles
+                    String name = scanner.nextLine();
                     
 
 

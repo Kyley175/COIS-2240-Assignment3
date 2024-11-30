@@ -34,8 +34,8 @@ public class Transaction {
     // Perform the borrowing of a book
     public boolean borrowBook(Book book, Member member) {
         if (book.isAvailable()) {
-            book.borrowBook();
-            member.borrowBook(book); 
+        	
+            member.borrowBook(book);
             String transactionDetails = getCurrentDateTime() + " - Borrowing: " + member.getName() + " borrowed " + book.getTitle();
             System.out.println(transactionDetails);
             saveTransaction(transactionDetails);
