@@ -5,29 +5,34 @@ import java.util.ArrayList;
 
 
 public class Transaction {
-	//list of past transactions
-	private static List<String> transactionHistory= new ArrayList<>();
 	
-	//add a transaction to the list
-	public static void addTransaction(String details) {
-		transactionHistory.add(details);
+	//
+	private static Transaction transaction;
+	
+	//private list declaration because if i also instantiate at the same time it gives an error for some reason
+	private List<String> transactionHistory;
+	
+	//private constructor prevents external instantiation
+	private Transaction() {
+		//instantiation of list of past transactions
+		transactionHistory = new ArrayList<>();
+	
 	}
 	
-	//print out the list of past transactions
-	public static void displayTransactionHistory() {
-		 System.out.println("\n--- Transaction History ---");
-	        if (transactionHistory.isEmpty()) {
-	            System.out.println("No transactions recorded.");
-	        } else {
-	            for (String transaction : transactionHistory) {
-	                System.out.println(transaction);
-	            }
-	        }
+	public static Transaction getTransactionInstance() {
+		/*lazy initialization, which I read about while looking up singleton pattern. 
+		it's meant to save resources by delaying initialization until it's needed, 
+		which makes no difference in this context but it's apparently good practice when it comes to singletons so  tried it out*/
+		if (transaction == null) {
+			transaction = new Transaction();
+		}
+		return transaction;
 	}
+	
 	
 
     // Perform the borrowing of a book
-    public static boolean borrowBook(Book book, Member member) {
+    public boolean borrowBook(Book book, Member member) {
         if (book.isAvailable()) {
             book.borrowBook();
             member.borrowBook(book); 
@@ -42,7 +47,7 @@ public class Transaction {
     }
 
     // Perform the returning of a book
-    public static void returnBook(Book book, Member member) {
+    public void returnBook(Book book, Member member) {
         if (member.getBorrowedBooks().contains(book)) {
             member.returnBook(book);
             book.returnBook();
@@ -59,4 +64,23 @@ public class Transaction {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
     }
+    
+
+	//add a transaction to the list
+	public void addTransaction(String details) {
+		transactionHistory.add(details);
+	}
+	
+	//print out the list of past transactions
+	public void displayTransactionHistory() {
+		 System.out.println("\n--- Transaction History ---");
+	        if (transactionHistory.isEmpty()) {
+	            System.out.println("No transactions recorded.");
+	        } else {
+	            for (String transaction : transactionHistory) {
+	                System.out.println(transaction);
+	            }
+	        }
+	}
+    
 }
