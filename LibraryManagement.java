@@ -5,7 +5,10 @@ public class LibraryManagement {
 
     private Transaction transaction = Transaction.getTransactionInstance();
     public static void main(String[] args) {
-        new LibraryManagement().run();
+        LibraryManagement lm = new LibraryManagement();
+        lm.library.loadLibraryData();
+        lm.run();
+        lm.library.saveLibraryData();
     }
     
     private void run() {
@@ -32,26 +35,28 @@ public class LibraryManagement {
                 case 1:
                     System.out.print("Enter member ID: ");
                     int id = scanner.nextInt();
+                    scanner.nextLine();//moved this up to eat the newline left by nextInt and changed the scan below to nextLine in case someone wants a last name
                 	System.out.print("Enter member name: ");
-                    String name = scanner.next();
+                    String name = scanner.nextLine().trim();//trims off the newline, not sure why it's there for member names but not book titles
                     
-                    scanner.nextLine();
+
 
                     Member newMember = new Member(id, name);
-                    library.addMember(newMember);
-                    System.out.println("Member added successfully.");
+                    if(library.addMember(newMember));
+                    	System.out.println("Member added successfully."); //I could have just moved this line into the addember function, then there'd be no need for boolean type or an if statement
                     break;
                 case 2:
                     System.out.print("Enter book ID: ");
                     id = scanner.nextInt();
+                    scanner.nextLine(); //moved this up and changed the .next to .nextLine for multi-word titles
                 	System.out.print("Enter book title: ");
-                    String title = scanner.next();
+                    String title = scanner.nextLine();
                     
-                    scanner.nextLine();
+
 
                     Book newBook = new Book(id, title);
-                    library.addBook(newBook);
-                    System.out.println("Book added to library successfully.");
+                    if(library.addBook(newBook))
+                    	System.out.println("Book added to library successfully.");
                     break;
                 case 3:
                 	System.out.println("\n--- Available Members ---");
