@@ -2,21 +2,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class Transaction {
 	
-	//
+	//private declaration of instance
 	private static Transaction transaction;
 	
-	//private list declaration because if i also instantiate at the same time it gives an error for some reason
-	private List<String> transactionHistory;
 	
 	//private constructor prevents external instantiation
 	private Transaction() {
-		//instantiation of list of past transactions
-		transactionHistory = new ArrayList<>();
-	
+		
 	}
 	
 	public static Transaction getTransactionInstance() {
@@ -38,7 +38,7 @@ public class Transaction {
             member.borrowBook(book); 
             String transactionDetails = getCurrentDateTime() + " - Borrowing: " + member.getName() + " borrowed " + book.getTitle();
             System.out.println(transactionDetails);
-            addTransaction(transactionDetails);
+            saveTransaction(transactionDetails);
             return true;
         } else {
             System.out.println("The book is not available.");
@@ -53,7 +53,7 @@ public class Transaction {
             book.returnBook();
             String transactionDetails = getCurrentDateTime() + " - Returning: " + member.getName() + " returned " + book.getTitle();
             System.out.println(transactionDetails);
-            addTransaction(transactionDetails);
+            saveTransaction(transactionDetails);
         } else {
             System.out.println("This book was not borrowed by the member.");
         }
@@ -67,20 +67,33 @@ public class Transaction {
     
 
 	//add a transaction to the list
-	public void addTransaction(String details) {
-		transactionHistory.add(details);
+	public void saveTransaction(String details) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("transaction.txt", true))){
+			writer.write(details + "\n"); //need to swap to a new line after each entry
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("error saving transaction: " + e.getMessage());
+		}
+		
 	}
 	
 	//print out the list of past transactions
 	public void displayTransactionHistory() {
+		//for printing purposes
+		String line;
+		try (BufferedReader reader = new BufferedReader(new FileReader("transaction.txt"))){
 		 System.out.println("\n--- Transaction History ---");
-	        if (transactionHistory.isEmpty()) {
-	            System.out.println("No transactions recorded.");
-	        } else {
-	            for (String transaction : transactionHistory) {
-	                System.out.println(transaction);
-	            }
-	        }
+		 if ("transaction.txt".length() == 0) {
+			 System.out.println("no transactions found(file empty)");
+			 return;
+		 }
+	        	//prepares variable for printing and checks for the end of the file at the same time! convenient!
+	        	while ((line = reader.readLine()) != null) {
+	        		System.out.println(line);
+	        	}
+		} catch (IOException e){
+			System.out.println("Error reading transaction history: " + e.getMessage());
+		}
 	}
     
 }
