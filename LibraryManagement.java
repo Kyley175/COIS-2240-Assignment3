@@ -43,7 +43,7 @@ public class LibraryManagement {
 
                     Member newMember = new Member(id, name);
                     if(library.addMember(newMember));
-                    	System.out.println("Member added successfully."); //I could have just moved this line into the addember function, then there'd be no need for boolean type or an if statement
+                    	System.out.println("Member added successfully."); //I could have just moved this line into the addmember function, then there'd be no need for boolean type or an if statement
                     break;
                 case 2:
                     System.out.print("Enter book ID: ");

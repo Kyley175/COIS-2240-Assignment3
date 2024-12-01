@@ -23,4 +23,8 @@
 2024-11-30 10:32:33 - Borrowing: Kyle Yang borrowed Heart of the Mountain
 2024-11-30 10:32:37 - Borrowing: Kyle Yang borrowed Conjunction
 2024-11-30 10:32:40 - Borrowing: Kyle Yang borrowed The Lady of Ramanoth
-2024-11-30 10:46:44 - Borrowing:  Kyle Yang borrowed The Lady of Ramanoth
+2024-11-30 20:01:56 - Borrowing: George borrowed Programming
+2024-11-30 20:02:01 - Borrowing: George borrowed Math
+2024-11-30 20:02:18 - Borrowing: Anne borrowed AI
+2024-11-30 20:02:45 - Returning: George returned Math
+2024-11-30 20:02:56 - Borrowing: Anne borrowed Math

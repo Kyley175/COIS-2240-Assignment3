@@ -23,3 +23,6 @@
 23,Heart of the Mountain,false,807214
 24,Conjunction,false,807214
 25,The Lady of Ramanoth,false,807214
+100,Programming,false,1111
+200,AI,false,2222
+300,Math,false,2222
