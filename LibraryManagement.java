@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class LibraryManagement {
-    private Library library = new Library();
+    public Library library = new Library();
 
     private Transaction transaction = Transaction.getTransactionInstance();
     public static void main(String[] args) {
