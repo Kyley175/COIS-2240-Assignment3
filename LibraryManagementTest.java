@@ -7,11 +7,20 @@ import org.junit.Test;
 
 public class LibraryManagementTest {
 
+	private LibraryManagement lm;
 	private Book book;
-
+	private Member member;
+	private Transaction transaction;
+	
 	@Before
 	public void setUp() {
-		book = new Book(0, "Placeholder");// values do literally nothing, its just so I can use the isvalid function
+		lm = new LibraryManagement();
+		book = new Book(100, "test book");
+		member = new Member(1, "test Member");
+		transaction = Transaction.getTransactionInstance();
+		
+		lm.library.addBook(book);
+		lm.library.addMember(member);
 	}
 
 	@Test
@@ -32,7 +41,7 @@ public class LibraryManagementTest {
 	// addBook, meaning addBook being in a try/catch does nothing
 	@Test
 	public void addbookInvalidId() {
-		LibraryManagement lm = new LibraryManagement();
+
 		Scanner scanner = new Scanner(System.in);
 
 		// user inputs
@@ -70,23 +79,34 @@ public class LibraryManagementTest {
 		} catch (IllegalArgumentException e) {
 			System.out.println("something went wrong");
 		}
-		
-		//invalid cases
-		try {//too low
-			Book invalid1 = new Book(1,"I need some names, but nothing feels right");
+
+		// invalid cases
+		try {// too low
+			Book invalid1 = new Book(1, "I need some names, but nothing feels right");
 			if (!invalid1.isValidId(invalid1.getId()))
 				throw new IllegalArgumentException("everything is working as it's said");
 		} catch (IllegalArgumentException e) {
 			System.out.println("no hiccups here, no bugs to dread, " + e.getMessage());
 		}
-		
-		try {//too high
-			Book invalid2 = new Book(1000,"they all seem so dull, with no good names in sight");
+
+		try {// too high
+			Book invalid2 = new Book(1000, "they all seem so dull, with no good names in sight");
 			if (!invalid2.isValidId(invalid2.getId()))
-				throw new IllegalArgumentException("things are working, all is fine");
+				throw new IllegalArgumentException("things go smoothly, all is fine");
 		} catch (IllegalArgumentException e) {
 			System.out.println("no glitches or fuss, it's all in line, " + e.getMessage());
 		}
+
+	}
+	@Test
+	public void testBorrowReturn(){
+		assertTrue("the other poems are jokes, but this one's no jest. this one's serious, unlike the rest.",book.isAvailable());//starts available
+		assertTrue("papers pile, hours pass, marking assignments endlessly en masse.",transaction.borrowBook(book, member));//borrow succeeds
+		assertFalse("endless pages, day by day, with little thanks but much to say.",book.isAvailable());//no longer available
+		assertFalse("so I made some poems, just for you, to brighten up your workday too.",transaction.borrowBook(book, member));//fails as book is borrowed already
+		assertTrue("I hope these lines will help you achieve, a little smile, a brief reprieve",transaction.returnBook(book, member));//book returned
+		assertTrue("your feedback guide me, help me to see, where I can grow and be the best I can be.",book.isAvailable());//available again
+		assertFalse("I appreciate all you do each day, helping me and others find their way.",transaction.returnBook(book, member));//fails, no longer has book
 		
 	}
 }
