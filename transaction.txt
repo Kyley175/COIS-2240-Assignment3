@@ -30,3 +30,5 @@
 2024-11-30 20:02:56 - Borrowing: Anne borrowed Math
 2024-12-01 09:18:36 - Borrowing: test Member borrowed test book
 2024-12-01 09:18:39 - Returning: test Member returned test book
+2024-12-01 19:07:16 - Borrowing: test Member borrowed test book
+2024-12-01 19:07:16 - Returning: test Member returned test book

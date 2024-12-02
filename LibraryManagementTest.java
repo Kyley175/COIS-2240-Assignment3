@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
-
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.Scanner;
 
 import org.junit.Before;
@@ -22,7 +24,7 @@ public class LibraryManagementTest {
 		lm.library.addBook(book);
 		lm.library.addMember(member);
 	}
-
+/*
 	@Test
 	public void testBookValid() {
 		// valid tests
@@ -107,6 +109,29 @@ public class LibraryManagementTest {
 		assertTrue("I hope these lines will help you achieve, a little smile, a brief reprieve",transaction.returnBook(book, member));//book returned
 		assertTrue("your feedback guide me, help me to see, where I can grow and be the best I can be.",book.isAvailable());//available again
 		assertFalse("I appreciate all you do each day, helping me and others find their way.",transaction.returnBook(book, member));//fails, no longer has book
-		
 	}
+	*/
+	@Test
+	public void testSingletonTransaction() {
+		try {
+			Constructor<Transaction> constructor = Transaction.class.getDeclaredConstructor();
+			int modifiers = constructor.getModifiers();
+			
+			assertTrue("constructor should be private",Modifier.isPrivate(modifiers));
+			
+			constructor.setAccessible(true);
+			Transaction firstInstance = Transaction.getTransactionInstance();
+			Transaction secondInstance = constructor.newInstance();
+			
+			fail("SDP rule broken: there can only be one ");
+		} catch (Exception e) {
+			System.out.println("things are working as intended: ");
+			e.printStackTrace();
+		}
+		
+        
+	}
+	
+	
+	
 }

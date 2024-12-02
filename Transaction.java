@@ -13,6 +13,9 @@ public class Transaction {
 
 	// private constructor prevents external instantiation
 	private Transaction() {
+		if (transaction != null) {
+			throw new IllegalStateException("cant create more than one instance");
+		}
 	}
 
 	public static Transaction getTransactionInstance() {
